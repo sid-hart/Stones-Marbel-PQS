@@ -39,18 +39,20 @@ public class KotaActivity extends AppCompatActivity
     private CheckBox chkFr;
     private CheckBox chkHr;
     private GridLayout gridLayDynaTxt;
+    private GridLayout gridLayTotalTxt;
     DisplayMetrics metrics;
     boolean dp = false;
     boolean ep = false;
     boolean hr = false;
     boolean fr = false;
+    static int total = 0;
     //private TextView txtTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kota);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_kota);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         editLength = (EditText) findViewById(R.id.editLength);
         editWidth = (EditText) findViewById(R.id.editWidth);
@@ -64,8 +66,32 @@ public class KotaActivity extends AppCompatActivity
         getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
         gridLayDynaTxt = (GridLayout) findViewById(R.id.DynamicParentGrid);
+        gridLayTotalTxt = (GridLayout) findViewById(R.id.DynamicTotaltGrid);
+
+        gridLayDynaTxt.addView(createNewTextViewInput("L*W"));
+        gridLayDynaTxt.addView(createNewTextViewInput("Extras"));
+        gridLayDynaTxt.addView(createNewTextViewInput("Qty"));
+        gridLayDynaTxt.addView(createNewTextViewInput("Cost"));
 
         editLength.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    addQuote();
+                }
+                return false;
+            }
+        });
+
+        editWidth.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    addQuote();
+                }
+                return false;
+            }
+        });
+
+        editQty.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
                     addQuote();
@@ -81,7 +107,8 @@ public class KotaActivity extends AppCompatActivity
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                addQuote();
+                total();
+
             }
         });
 
@@ -100,18 +127,6 @@ public class KotaActivity extends AppCompatActivity
         collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_kota);
         collapsingToolbar.setTitle("Kota Stone");
         ImageView header = (ImageView) findViewById(R.id.imageViewkota);
-
-        Menu menu = navigationView.getMenu();
-        MenuItem nav_camara = menu.findItem(R.id.nav_camera);
-        nav_camara.setTitle("Kota Data");
-        MenuItem nav_gallery = menu.findItem(R.id.nav_gallery);
-        nav_gallery.setTitle("Granite Data");
-        MenuItem nav_slideshow = menu.findItem(R.id.nav_slideshow);
-        nav_gallery.setTitle("Marble Data");
-        navigationView.setNavigationItemSelectedListener(this);
-        MenuItem nav_save = menu.findItem(R.id.nav_save);
-        nav_gallery.setTitle("Save");
-        navigationView.setNavigationItemSelectedListener(this);
 
         editQty.setText("1");
     }
@@ -147,8 +162,8 @@ public class KotaActivity extends AppCompatActivity
         //textView.setId(i);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         textView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
-        textView.setWidth(metrics.widthPixels / 3);
-        textView.setMinimumWidth(metrics.widthPixels / 3);
+        textView.setWidth(metrics.widthPixels / 4);
+        textView.setMinimumWidth(metrics.widthPixels / 4);
         return textView;
     }
 
@@ -177,7 +192,14 @@ public class KotaActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_clear) {
+            gridLayTotalTxt.removeAllViews();
+            gridLayDynaTxt.removeAllViews();
+            total = 0;
+            gridLayDynaTxt.addView(createNewTextViewInput("L*W"));
+            gridLayDynaTxt.addView(createNewTextViewInput("Extras"));
+            gridLayDynaTxt.addView(createNewTextViewInput("Qty"));
+            gridLayDynaTxt.addView(createNewTextViewInput("Cost"));
             return true;
         }
 
@@ -197,10 +219,6 @@ public class KotaActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_save) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -209,7 +227,7 @@ public class KotaActivity extends AppCompatActivity
     }
 
     public void addQuote() {
-        if (editLength.getText() != null && editWidth.getText() != null && editQty.getText() != null) {
+        if (editLength.getText().length() > 0 && editWidth.getText().length() > 0 && editQty.getText().length() > 0) {
             KotaMeasuresPrice calculations = new KotaMeasuresPrice(getBaseContext());
             int length = Integer.parseInt(editLength.getText().toString());
             int width = Integer.parseInt(editWidth.getText().toString());
@@ -221,11 +239,22 @@ public class KotaActivity extends AppCompatActivity
                 String price = String.valueOf(calculations.calculatePrice(length, width, qty, chkDp.isChecked(), chkEp.isChecked(), chkHr.isChecked(), chkFr.isChecked()));
                 gridLayDynaTxt.addView(createNewTextViewInput(editLength.getText().toString() + " * " + editWidth.getText().toString()));
                 gridLayDynaTxt.addView(createNewTextViewInput(getInputs()));
-                gridLayDynaTxt.addView(createNewTextViewInput(price));
+                gridLayDynaTxt.addView(createNewTextViewInput(editQty.getText().toString()));
+                gridLayDynaTxt.addView(createNewTextViewInput("₹" + price));
+                gridLayTotalTxt.removeAllViews();
+                total += Integer.valueOf(price);
             }
         } else {
             Toast.makeText(getApplicationContext(),
                     "Please enter valid values", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void total() {
+        gridLayTotalTxt.removeAllViews();
+        gridLayTotalTxt.addView(createNewTextViewInput("Total"));
+        gridLayTotalTxt.addView(createNewTextViewInput(""));
+        gridLayTotalTxt.addView(createNewTextViewInput(""));
+        gridLayTotalTxt.addView(createNewTextViewInput("₹" + String.valueOf(total)));
     }
 }

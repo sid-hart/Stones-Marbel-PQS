@@ -61,18 +61,6 @@ public class KotaData extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Menu menu = navigationView.getMenu();
-        MenuItem nav_camara = menu.findItem(R.id.nav_camera);
-        nav_camara.setTitle("Kota Data");
-        MenuItem nav_gallery = menu.findItem(R.id.nav_gallery);
-        nav_gallery.setTitle("Granite Data");
-        MenuItem nav_slideshow = menu.findItem(R.id.nav_slideshow);
-        nav_gallery.setTitle("Marble Data");
-        navigationView.setNavigationItemSelectedListener(this);
-        MenuItem nav_save = menu.findItem(R.id.nav_save);
-        nav_gallery.setTitle("Save");
-        navigationView.setNavigationItemSelectedListener(this);
-
         lengthList();
 
         fillExtras();
@@ -132,10 +120,6 @@ public class KotaData extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_save) {
 
         }
 

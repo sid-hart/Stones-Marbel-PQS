@@ -1,5 +1,6 @@
 package com.sid_hart.stones_marbelpqs;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     CardView cardViewKota;
     DBHandler dbHandlerstones;
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,18 +52,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        Menu menu = navigationView.getMenu();
-        MenuItem nav_camara = menu.findItem(R.id.nav_camera);
-        nav_camara.setTitle("Kota Data");
-        MenuItem nav_gallery = menu.findItem(R.id.nav_gallery);
-        nav_gallery.setTitle("Granite Data");
-        MenuItem nav_slideshow = menu.findItem(R.id.nav_slideshow);
-        nav_gallery.setTitle("Marble Data");
-        navigationView.setNavigationItemSelectedListener(this);
-        MenuItem nav_save = menu.findItem(R.id.nav_save);
-        nav_gallery.setTitle("Save");
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -106,12 +97,12 @@ public class MainActivity extends AppCompatActivity
             Intent intentKota = new Intent(this, KotaData.class);
             startActivity(intentKota);
         } else if (id == R.id.nav_gallery) {
+            Toast.makeText(getApplicationContext(),
+                    "Coming Soon", Toast.LENGTH_LONG).show();
 
         } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_save) {
+            Toast.makeText(getApplicationContext(),
+                    "Coming Soon", Toast.LENGTH_LONG).show();
 
         }
 
@@ -130,5 +121,15 @@ public class MainActivity extends AppCompatActivity
         } else {
             startActivity(intentKota);
         }
+    }
+
+    public void graniteClicked(View view) {
+        Toast.makeText(getApplicationContext(),
+                "Coming Soon", Toast.LENGTH_LONG).show();
+    }
+
+    public void marbleClicked(View view) {
+        Toast.makeText(getApplicationContext(),
+                "Coming Soon", Toast.LENGTH_LONG).show();
     }
 }
