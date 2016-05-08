@@ -1,9 +1,11 @@
 package com.sid_hart.stones_marbelpqs;
 
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,12 +16,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,7 +50,7 @@ public class KotaActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kota);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_kota);
         setSupportActionBar(toolbar);
         editLength = (EditText) findViewById(R.id.editLength);
         editWidth = (EditText) findViewById(R.id.editWidth);
@@ -60,35 +65,28 @@ public class KotaActivity extends AppCompatActivity
 
         gridLayDynaTxt = (GridLayout) findViewById(R.id.DynamicParentGrid);
 
+        editLength.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_DONE)) {
+                    addQuote();
+                }
+                return false;
+            }
+        });
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setBackgroundTintList(ColorStateList.valueOf(Color.BLUE));
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#646f50")));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                if (editLength != null && editWidth != null && editQty != null) {
-                    KotaMeasuresPrice calculations = new KotaMeasuresPrice(getBaseContext());
-                    int length = Integer.parseInt(editLength.getText().toString());
-                    int width = Integer.parseInt(editWidth.getText().toString());
-                    int qty = Integer.parseInt(editQty.getText().toString());
-                    if (calculations.calculatePrice(length, width, qty, false, false, false, false) == 0 || width > length) {
-                        Toast.makeText(getApplicationContext(),
-                                "Please enter valid value", Toast.LENGTH_LONG).show();
-                    } else {
-                        String price = String.valueOf(calculations.calculatePrice(length, width, qty, chkDp.isChecked(), chkEp.isChecked(), chkHr.isChecked(), chkFr.isChecked()));
-                        gridLayDynaTxt.addView(createNewTextViewInput(editLength.getText().toString() + " * " + editWidth.getText().toString()));
-                        gridLayDynaTxt.addView(createNewTextViewInput(getInputs()));
-                        gridLayDynaTxt.addView(createNewTextViewInput(price));
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(),
-                            "Please enter valid values", Toast.LENGTH_LONG).show();
-                }
+                addQuote();
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = new DrawerLayout(this);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -97,8 +95,25 @@ public class KotaActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        editQty.setText("1");
+        setSupportActionBar(toolbar);
+        CollapsingToolbarLayout collapsingToolbar = new CollapsingToolbarLayout(this);
+        collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_kota);
+        collapsingToolbar.setTitle("Kota Stone");
+        ImageView header = (ImageView) findViewById(R.id.imageViewkota);
 
+        Menu menu = navigationView.getMenu();
+        MenuItem nav_camara = menu.findItem(R.id.nav_camera);
+        nav_camara.setTitle("Kota Data");
+        MenuItem nav_gallery = menu.findItem(R.id.nav_gallery);
+        nav_gallery.setTitle("Granite Data");
+        MenuItem nav_slideshow = menu.findItem(R.id.nav_slideshow);
+        nav_gallery.setTitle("Marble Data");
+        navigationView.setNavigationItemSelectedListener(this);
+        MenuItem nav_save = menu.findItem(R.id.nav_save);
+        nav_gallery.setTitle("Save");
+        navigationView.setNavigationItemSelectedListener(this);
+
+        editQty.setText("1");
     }
 
     private String getInputs() {
@@ -136,26 +151,6 @@ public class KotaActivity extends AppCompatActivity
         textView.setMinimumWidth(metrics.widthPixels / 3);
         return textView;
     }
-
- /*   private TextView createNewTextViewPrice(String text) {
-        TextView textView = new TextView(this);
-        textView.setText(text);
-        //textView.setId(i);
-
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-        textView.setGravity(Gravity.CENTER | Gravity.BOTTOM);
-        return textView;
-    }*/
-
-    /*public void printDatabase(){
-        ArrayList<String> tempPrice = new ArrayList<String>();
-        tempPrice = dbHandlerstones.getMeasurements();
-        String temp = "";
-        for(int i=0; i<tempPrice.size(); i++) {
-            temp += tempPrice.get(i) + "\n";
-        }
-        txtTest.setText(temp);
-    }*/
 
     @Override
     public void onBackPressed() {
@@ -196,21 +191,41 @@ public class KotaActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Intent intentKota = new Intent(this, KotaData.class);
+            startActivity(intentKota);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
-
         } else if (id == R.id.nav_share) {
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_save) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void addQuote() {
+        if (editLength.getText() != null && editWidth.getText() != null && editQty.getText() != null) {
+            KotaMeasuresPrice calculations = new KotaMeasuresPrice(getBaseContext());
+            int length = Integer.parseInt(editLength.getText().toString());
+            int width = Integer.parseInt(editWidth.getText().toString());
+            int qty = Integer.parseInt(editQty.getText().toString());
+            if (calculations.calculatePrice(length, width, qty, false, false, false, false) == 0 || width > length) {
+                Toast.makeText(getApplicationContext(),
+                        "Please enter valid value", Toast.LENGTH_LONG).show();
+            } else {
+                String price = String.valueOf(calculations.calculatePrice(length, width, qty, chkDp.isChecked(), chkEp.isChecked(), chkHr.isChecked(), chkFr.isChecked()));
+                gridLayDynaTxt.addView(createNewTextViewInput(editLength.getText().toString() + " * " + editWidth.getText().toString()));
+                gridLayDynaTxt.addView(createNewTextViewInput(getInputs()));
+                gridLayDynaTxt.addView(createNewTextViewInput(price));
+            }
+        } else {
+            Toast.makeText(getApplicationContext(),
+                    "Please enter valid values", Toast.LENGTH_LONG).show();
+        }
     }
 }

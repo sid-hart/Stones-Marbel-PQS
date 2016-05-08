@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.sid_hart.stones_marbelpqs.KotaData"
+    tools:showIn="@layout/app_bar_kota_data"
+    android:background="#d2f1c9">
+
+    <LinearLayout
+        android:id="@+id/headerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_marginBottom="5dp">
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/headerCardKotaData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            card_view:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#646f50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Add New Length and Price / Update Price For Length"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Length : "
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/editLength"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="50dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="45dp"
+                        android:text="Price : "
+                        android:textSize="15sp" />
+
+                    <EditText
+                        android:id="@+id/editPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="50dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <Button
+                        android:id="@+id/btnSaveKotaLengthPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SAVE"
+                        android:layout_marginLeft="7dp"
+                        android:onClick="addUpdateKota" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/headerCardKotaExtra"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            card_view:cardCornerRadius="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:background="#646f50">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Update Price For Extras (DP, EdgePolish, Width > 23)"
+                    android:textSize="14.5sp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DP : "
+                        android:textSize="15sp"
+                        android:layout_marginLeft="7dp" />
+
+                    <EditText
+                        android:id="@+id/editDPPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="35dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EP : "
+                        android:textSize="15sp"
+                        android:layout_marginLeft="20dp" />
+
+                    <EditText
+                        android:id="@+id/editEPPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="35dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="HR : "
+                        android:textSize="15sp"
+                        android:layout_marginLeft="20dp" />
+
+                    <EditText
+                        android:id="@+id/editHRPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="35dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FR : "
+                        android:textSize="15sp"
+                        android:layout_marginLeft="20dp" />
+
+                    <EditText
+                        android:id="@+id/editFRPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="35dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Extra Width Price : "
+                        android:textSize="15sp"
+                        android:layout_marginLeft="7dp" />
+
+                    <EditText
+                        android:id="@+id/editWidthPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:minWidth="60dp"
+                        android:inputType="number"
+                        android:textAlignment="center" />
+
+                    <Button
+                        android:id="@+id/btnSaveKotaWidthPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="60dp"
+                        android:text="SAVE"
+                        android:onClick="updateExtras" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:grid="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/grid_kota_list_header"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            grid:alignmentMode="alignBounds"
+            grid:columnCount="2"
+            grid:columnOrderPreserved="true"
+            grid:useDefaultMargins="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Length*Width"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                grid:layout_gravity="center_horizontal"
+                grid:layout_columnWeight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price(Rupees)"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                grid:layout_gravity="center_horizontal"
+                grid:layout_columnWeight="1" />
+
+        </android.support.v7.widget.GridLayout>
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:id="@+id/scrollablContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headerView">
+
+        <android.support.v7.widget.GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:grid="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/grid_kota_list"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            grid:alignmentMode="alignBounds"
+            grid:columnCount="2"
+            grid:columnOrderPreserved="true"
+            grid:useDefaultMargins="false"
+            android:nestedScrollingEnabled="false">
+
+        </android.support.v7.widget.GridLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>
